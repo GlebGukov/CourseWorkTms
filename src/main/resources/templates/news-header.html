@@ -10,10 +10,10 @@
 
 <div class="container mt-5">
     <h1 th:text="${title}"/>
-    <div th:each="element : ${worldNews}" class="alert alert-into mt-2">
-        <h3 th:text="${element.getTitle()}"/>
-        <p th:text="${element.getAnons()}"/>
-        <a th:href="'/world/'+ ${element.id}" class="btn btn-warning">More information's</a>
+    <div th:each="el: ${typeNews}" class="alert alert-into mt-2">
+        <h3 th:text="${el.getTitle()}"/>
+        <p th:text="${el.getAnons()}"/>
+        <a th:href="'/reading/'+ ${el.id}" class="btn btn-warning">More information's</a>
     </div>
 </div>
 

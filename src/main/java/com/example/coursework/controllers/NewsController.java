@@ -4,12 +4,16 @@ import com.example.coursework.models.PostNews;
 import com.example.coursework.repositories.PostNewsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
-public class HeaderController {
+public class NewsController {
 
     @Autowired
     private PostNewsRepository postNewsRepository;
@@ -17,7 +21,7 @@ public class HeaderController {
     @GetMapping("/news/{title}")
     public String news(@PathVariable(name = "title") String typeOfNews, Model model) {
         model.addAttribute("title", typeOfNews);
-        Iterable<PostNews> postNews = postNewsRepository.findByTitleContainingOrAnonsContaining("#" + typeOfNews, "#" + typeOfNews);
+        Iterable<PostNews> postNews = postNewsRepository.findByFullTextContaining("#" + typeOfNews);
         model.addAttribute("typeNews", postNews);
         return "news-header";
     }
@@ -28,27 +32,28 @@ public class HeaderController {
         return "news-add";
     }
 
+    @Transactional
     @GetMapping("/reading/{id}")
     public String newsDetails(@PathVariable(name = "id") long id, Model model) {
         if (postNewsRepository.existsById(id)) {
-            PostNews postNews = postNewsRepository.findById(id).orElse(null);
+            PostNews postNews = postNewsRepository.findById(id).orElseThrow();
+            postNewsRepository.updateViews(id);
             model.addAttribute("news", postNews);
             return "news-details";
         } else return "news-error";
     }
 
-    @GetMapping("/aboutMe")
-    public String aboutMe(Model model) {
-        model.addAttribute("title", "About Me");
-        return "about-me";
-    }
-
     @PostMapping("/news/add")
-    public String newsPOSTAdd(@RequestParam String title, @RequestParam String anons, @RequestParam String fullText, Model model) {
-        PostNews postNews = PostNews.builder().title(title + " #").anons(anons).fullText(fullText).build();
+    public String newsPOSTAdd(@RequestParam String title,
+                              @RequestParam String anons,
+                              @RequestParam String fullText,
+                              @RequestParam String typeNews,
+                              Model model) {
+        PostNews postNews = PostNews.builder().title(title).anons(anons).fullText(fullText + " #" + typeNews).build();
         postNewsRepository.save(postNews);
         return "redirect:/";
     }
+
     @PostMapping("/news/delete/{id}")
     public String deleteNews(@PathVariable(name = "id") long id) {
         if (!postNewsRepository.existsById(id)) {
@@ -64,9 +69,10 @@ public class HeaderController {
             return "news-error";
         }
         PostNews postNews = postNewsRepository.findById(id).orElse(null);
-        model.addAttribute("news",postNews);
+        model.addAttribute("news", postNews);
         return "news-edit";
     }
+
     @PostMapping("/news/edit/{id}")
     public String editNews(@PathVariable(name = "id") long id, @RequestParam String title, @RequestParam String anons, @RequestParam String fullText, Model model) {
         PostNews postNews = postNewsRepository.findById(id).orElseThrow();

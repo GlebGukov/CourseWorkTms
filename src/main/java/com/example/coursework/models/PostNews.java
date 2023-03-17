@@ -18,9 +18,9 @@ public class PostNews {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String title,anons;
-    @Column (length = 1000)
+    private String title, anons;
+    @Column(length = 1000)
     private String fullText;
-    private int views;
+    private long views = 1;
 
 }

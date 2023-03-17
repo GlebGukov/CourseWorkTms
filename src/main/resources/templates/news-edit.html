@@ -12,9 +12,11 @@
     <h2>Edit news</h2>
     <form method="post">
         <div th:each="el : ${news}">
-            <input type="text" th:value="${el.getTitle}" name="title" placeholder="enter the title of the news" class="form-control"><br>
-            <input type="text" th:value="${el.getAnons}" name="anons" placeholder="enter the anons of the news" class="form-control"><br>
-            <textarea name="fullText" placeholder="enter content" class="form-control" th:text="${el.getFullText}" /><br>
+            <input type="text" th:value="${el.getTitle}" name="title" placeholder="enter the title of the news"
+                   class="form-control"><br>
+            <input type="text" th:value="${el.getAnons}" name="anons" placeholder="enter the anons of the news"
+                   class="form-control"><br>
+            <textarea name="fullText" placeholder="enter content" class="form-control" th:text="${el.getFullText}"/><br>
             <button type="submit" class="btn btn-success">Edit news</button>
         </div>
     </form>

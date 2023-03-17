@@ -11,6 +11,19 @@
 <div class="container mt-5 mb-5 ">
     <h2>Add news</h2>
     <form action="/news/add" method="post">
+        <select class="form-select" name="typeNews">
+            <option selected>Select type news</option>
+            <option value="World">World</option>
+            <option value="Technology">Technology</option>
+            <option value="Design">Design</option>
+            <option value="Culture">Culture</option>
+            <option value="Business">Business</option>
+            <option value="Politics">Politics</option>
+            <option value="Opinion">Opinion</option>
+            <option value="Science">Science</option>
+            <option value="Style">Style</option>
+            <option value="Travel">Travel</option>
+        </select><br>
         <input type="text" name="title" placeholder="enter the title of the news" class="form-control"><br>
         <input type="text" name="anons" placeholder="enter the anons of the news" class="form-control"><br>
         <textarea name="fullText" placeholder="enter content" class="form-control"></textarea><br>

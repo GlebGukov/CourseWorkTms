@@ -13,7 +13,13 @@
     <div th:each="el: ${newsArchive}" class="alert alert-into mt-2">
         <h3 th:text="${el.getTitle()}"/>
         <p th:text="${el.getAnons()}"/>
-        <a th:href="'/reading/'+ ${el.id}" class="btn btn-warning">More information's</a>
+        <a th:href="'/news/reading/'+ ${el.id}" class="btn btn-warning">More information's</a><br>
+        <form th:action="'/archive/'+${el.id}+'/toActual'" method="post">
+            <button type="submit" class="btn btn-info mr-2">
+                Send news to actual
+            </button>
+        </form>
+        <form></form>
     </div>
 </div>
 

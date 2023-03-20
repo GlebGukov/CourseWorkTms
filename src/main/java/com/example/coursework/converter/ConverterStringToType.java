@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 
 @Service
 public class ConverterStringToType {

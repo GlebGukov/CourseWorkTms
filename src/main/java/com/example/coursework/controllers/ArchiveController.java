@@ -6,17 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/archive")
 public class ArchiveController {
     @Autowired
     private PostNewsRepository postNewsRepository;
 
-    @GetMapping("/archive/{month}")
+    @GetMapping("/{month}")
     public String getArchiveNews(@PathVariable(name = "month") String month,
                                  Model model) {
         Iterable<PostNewsEntity> newsArchive = postNewsRepository.findByArchivedIsTrue();
@@ -27,9 +25,15 @@ public class ArchiveController {
 
 
     @Transactional
-    @PostMapping("/archive/{id}")
+    @PostMapping("/{id}")
     public String addNewsToArchive(@PathVariable(name = "id") long id) {
         postNewsRepository.archived(true,id);
+        return "redirect:/";
+    }
+    @Transactional
+    @PostMapping("/{id}/toActual")
+    public String addNewsToActual(@PathVariable(name = "id") long id) {
+        postNewsRepository.archived(false,id);
         return "redirect:/";
     }
 }

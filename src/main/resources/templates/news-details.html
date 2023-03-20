@@ -15,11 +15,13 @@
         <p th:text="${el.getFullText}"/>
         <p th:text="'Просмотры:  '+ ${el.getViews}" class="fst-italic text-info font-weight-bold" col/>
         <a th:href="'/news/edit/'+${el.getId}" class="btn btn-warning">Edit this news</a>
+        <br>
         <form th:action="'/news/delete/'+${el.id}" method="post">
             <button type="submit" class="btn btn-danger mr-2">Delete this news</button>
         </form>
+        <br>
         <form th:action="'/archive/'+${el.id}" method="post">
-            <button type="submit" class="btn btn-danger mr-2">
+            <button type="submit" class="btn btn-info mr-2">
                 Send news to the archive
             </button>
         </form>

@@ -18,6 +18,11 @@
         <form th:action="'/news/delete/'+${el.id}" method="post">
             <button type="submit" class="btn btn-danger mr-2">Delete this news</button>
         </form>
+        <form th:action="'/archive/'+${el.id}" method="post">
+            <button type="submit" class="btn btn-danger mr-2">
+                Send news to the archive
+            </button>
+        </form>
     </div>
 </div>
 

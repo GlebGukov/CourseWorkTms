@@ -8,5 +8,5 @@ spring:
     password: Marinenko22111
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
 

@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface PostNewsRepository extends CrudRepository<PostNewsEntity, Long> {
-    Iterable<PostNewsEntity> findByArchivedIsTrue ();
+    Iterable<PostNewsEntity> findByArchivedIsTrue();
 
     Iterable<PostNewsEntity> findByTypeOfNewsAndArchivedIsFalse(TypeOfNews typeOfNews);
 
@@ -19,6 +19,6 @@ public interface PostNewsRepository extends CrudRepository<PostNewsEntity, Long>
 
     @Modifying
     @Query("UPDATE news SET archived = :arg WHERE id = :id ")
-    void archived (Boolean arg,@Param("id") long id);
+    void archived(Boolean arg, @Param("id") long id);
 
 }

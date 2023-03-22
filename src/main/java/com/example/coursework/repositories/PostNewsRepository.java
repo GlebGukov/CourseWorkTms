@@ -19,6 +19,6 @@ public interface PostNewsRepository extends CrudRepository<PostNewsEntity, Long>
 
     @Modifying
     @Query("UPDATE news SET archived = :arg WHERE id = :id ")
-    void archived(Boolean arg, @Param("id") long id);
+    void changeParamArchive(Boolean arg, @Param("id") long id);
 
 }

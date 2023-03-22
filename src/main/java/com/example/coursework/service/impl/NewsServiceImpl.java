@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -65,5 +66,16 @@ public class NewsServiceImpl implements NewsService {
         PostNewsEntity postNewsEntity = postNewsRepository.findById(id).orElseThrow();
         postNewsRepository.updateViews(id);
         return newsMapper.toDto(postNewsEntity);
+    }
+
+    @Override
+    public Iterable<PostNewsEntity> newsArchive() {
+        return postNewsRepository.findByArchivedIsTrue();
+    }
+
+    @Override
+    @Transactional
+    public void addNewsToArchiveOrActual(boolean arg, long id) {
+        postNewsRepository.changeParamArchive(arg,id);
     }
 }

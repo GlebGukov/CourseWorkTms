@@ -62,6 +62,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    @Transactional
     public PostNewsDto toDetails(long id) {
         PostNewsEntity postNewsEntity = postNewsRepository.findById(id).orElseThrow();
         postNewsRepository.updateViews(id);
@@ -76,6 +77,6 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public void addNewsToArchiveOrActual(boolean arg, long id) {
-        postNewsRepository.changeParamArchive(arg,id);
+        postNewsRepository.changeParamArchive(arg, id);
     }
 }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.UUID;
+
 @Controller
 @RequestMapping("/archive")
 public class ArchiveController {
@@ -19,7 +21,7 @@ public class ArchiveController {
     private NewsService newsService;
 
     @GetMapping("/{month}")
-    @PreAuthorize("hasAuthority('users:write')")
+    @PreAuthorize("hasAuthority('write')")
     public String getArchiveNews(@PathVariable(name = "month") String month,
                                  Model model) {
         Iterable<PostNewsEntity> newsArchive = newsService.newsArchive();
@@ -29,16 +31,16 @@ public class ArchiveController {
     }
 
     @PostMapping("/{id}")
-    @PreAuthorize("hasAuthority('users:write')")
-    public String addNewsToArchive(@PathVariable(name = "id") long id) {
+    @PreAuthorize("hasAuthority('write')")
+    public String addNewsToArchive(@PathVariable(name = "id") UUID id) {
         newsService.addNewsToArchiveOrActual(true, id);
         return "redirect:/";
     }
 
     @Transactional
     @PostMapping("/{id}/toActual")
-    @PreAuthorize("hasAuthority('users:write')")
-    public String addNewsToActual(@PathVariable(name = "id") long id) {
+    @PreAuthorize("hasAuthority('write')")
+    public String addNewsToActual(@PathVariable(name = "id") UUID id) {
         newsService.addNewsToArchiveOrActual(false, id);
         return "redirect:/";
     }

@@ -13,7 +13,7 @@
     <div th:each="el : ${news}" class="alert alert-into mt-2">
         <h3 th:text="${el.getTitle()}"/>
         <p th:text="${el.getFullText}"/>
-        <p th:text="'Просмотры:  '+ ${el.getViews}" class="fst-italic text-info font-weight-bold" col/>
+        <p th:text="'Просмотры:  '+ ${el.getViews}" class="fst-italic text-info font-weight-bold"/>
         <a th:href="'/news/edit/'+${el.getId}" class="btn btn-outline-warning">Edit this news</a>
         <br>
         <form th:action="'/news/delete/'+${el.id}" method="post">

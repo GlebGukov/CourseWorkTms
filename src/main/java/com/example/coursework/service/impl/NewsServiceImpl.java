@@ -1,42 +1,38 @@
 package com.example.coursework.service.impl;
 
-import com.example.coursework.TypeOfNews;
-import com.example.coursework.converter.ConverterStringToType;
+import com.example.coursework.converter.ConverterStringToTypeNews;
 import com.example.coursework.dto.PostNewsDto;
 import com.example.coursework.mapper.NewsMapper;
 import com.example.coursework.models.PostNewsEntity;
+import com.example.coursework.models.TypeOfNews;
 import com.example.coursework.repositories.PostNewsRepository;
 import com.example.coursework.service.NewsService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@AllArgsConstructor
-@NoArgsConstructor
+import java.util.UUID;
 
+@RequiredArgsConstructor
 @Service
 public class NewsServiceImpl implements NewsService {
 
-    @Autowired
-    private PostNewsRepository postNewsRepository;
-    @Autowired
-    private NewsMapper newsMapper;
+    private final PostNewsRepository postNewsRepository;
 
-    @Autowired
-    private ConverterStringToType converterStringToType;
+    private final NewsMapper newsMapper;
+
+    private final ConverterStringToTypeNews converterStringToTypeNews;
 
     @Override
-    public PostNewsDto saveToDB(PostNewsDto postNewsDto, String type) {
-        TypeOfNews typeOfNews = converterStringToType.convertStringToTypeNews(type);
+    public PostNewsDto saveToDataBase(PostNewsDto postNewsDto, String type) {
+        TypeOfNews typeOfNews = converterStringToTypeNews.convertStringToTypeNews(type);
         postNewsDto.setTypeOfNews(typeOfNews);
         return newsMapper.toDto(postNewsRepository.save
                 (newsMapper.toEntity(postNewsDto)));
     }
 
     @Override
-    public PostNewsDto makeChanges(PostNewsDto postNewsDto, long id) {
+    public PostNewsDto makeChanges(PostNewsDto postNewsDto, UUID id) {
         PostNewsEntity postNewsEntity = postNewsRepository.findById(id).orElseThrow();
         if (postNewsDto == null) {
             return newsMapper.toDto(postNewsEntity);
@@ -49,13 +45,13 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public void deleteFromDB(long id) {
+    public void deleteFromDataBase(UUID id) {
         postNewsRepository.deleteById(id);
     }
 
     @Override
     public Iterable<PostNewsDto> getNews(String type) {
-        TypeOfNews typeOfNews = converterStringToType.convertStringToTypeNews(type);
+        TypeOfNews typeOfNews = converterStringToTypeNews.convertStringToTypeNews(type);
         Iterable<PostNewsEntity> postNewsEntities =
                 postNewsRepository.findByTypeOfNewsAndArchivedIsFalse(typeOfNews);
         return newsMapper.iterableNewsToDto(postNewsEntities);
@@ -63,7 +59,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional
-    public PostNewsDto toDetails(long id) {
+    public PostNewsDto toDetails(UUID id) {
         PostNewsEntity postNewsEntity = postNewsRepository.findById(id).orElseThrow();
         postNewsRepository.updateViews(id);
         return newsMapper.toDto(postNewsEntity);
@@ -76,7 +72,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     @Transactional
-    public void addNewsToArchiveOrActual(boolean arg, long id) {
+    public void addNewsToArchiveOrActual(boolean arg, UUID id) {
         postNewsRepository.changeParamArchive(arg, id);
     }
 }

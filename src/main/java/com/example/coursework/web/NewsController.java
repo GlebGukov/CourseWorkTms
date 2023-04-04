@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 
 @Controller
 @RequestMapping("/news")
@@ -16,7 +18,7 @@ public class NewsController {
     private NewsServiceImpl newsService;
 
     @GetMapping("/{title}")
-    @PreAuthorize("hasAuthority('users:read')")
+    @PreAuthorize("hasAuthority('read')")
     public String news(@PathVariable(name = "title") String type, Model model) {
         model.addAttribute("title", type);
         Iterable<PostNewsDto> news = newsService.getNews(type);
@@ -25,47 +27,47 @@ public class NewsController {
     }
 
     @GetMapping("/add")
-    @PreAuthorize("hasAuthority('users:read')")
+    @PreAuthorize("hasAuthority('read')")
     public String newsAdd() {
         return "news-add";
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAuthority('users:read')")
+    @PreAuthorize("hasAuthority('read')")
     public String newsAdd(PostNewsDto postNewsDto, @RequestParam String typeNews) {
-        newsService.saveToDB(postNewsDto, typeNews);
+        newsService.saveToDataBase(postNewsDto, typeNews);
         return "redirect:/";
     }
 
     //    @Transactional
     @GetMapping("/reading/{id}")
-    @PreAuthorize("hasAuthority('users:read')")
-    public String newsDetails(@PathVariable(name = "id") long id, Model model) {
+    @PreAuthorize("hasAuthority('read')")
+    public String newsDetails(@PathVariable(name = "id") UUID id, Model model) {
         PostNewsDto postNewsDto = newsService.toDetails(id);
         model.addAttribute("news", postNewsDto);
         return "news-details";
     }
 
     @GetMapping("/edit/{id}")
-    @PreAuthorize("hasAuthority('users:write')")
-    public String editNews(@PathVariable(name = "id") long id, Model model) {
+    @PreAuthorize("hasAuthority('write')")
+    public String editNews(@PathVariable(name = "id") UUID id, Model model) {
         PostNewsDto postNewsDto = newsService.makeChanges(null, id);
         model.addAttribute("news", postNewsDto);
         return "news-edit";
     }
 
     @PostMapping("/edit/{id}")
-    @PreAuthorize("hasAuthority('users:write')")
-    public String editNews(@PathVariable(name = "id") long id,
+    @PreAuthorize("hasAuthority('write')")
+    public String editNews(@PathVariable(name = "id") UUID id,
                            PostNewsDto postNewsDto) {
         newsService.makeChanges(postNewsDto, id);
         return "redirect:/";
     }
 
     @PostMapping("/delete/{id}")
-    @PreAuthorize("hasAuthority('users:write')")
-    public String deleteNews(@PathVariable(name = "id") long id) {
-        newsService.deleteFromDB(id);
+    @PreAuthorize("hasAuthority('write')")
+    public String deleteNews(@PathVariable(name = "id") UUID id) {
+        newsService.deleteFromDataBase(id);
         return "redirect:/";
     }
 }

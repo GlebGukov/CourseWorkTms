@@ -2,9 +2,8 @@ package com.example.coursework.security;
 
 public enum Permission {
 
-    USERS_READ("users:read"),
-
-    USERS_WRITE("users:write");
+    READ("read"),
+    WRITE("write");
 
     private final String permission;
 

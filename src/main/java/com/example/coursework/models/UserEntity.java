@@ -1,7 +1,7 @@
 package com.example.coursework.models;
 
+import com.example.coursework.security.Role;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,13 +9,13 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.UUID;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 
-@Entity(name = "news")
-public class PostNewsEntity {
+
+@Entity(name = "users")
+public class UserEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -25,17 +25,15 @@ public class PostNewsEntity {
     )
     private UUID id;
 
-    private String title, anons;
+    private String login,
+            password,
+            first_name,
+            last_name,
+            email;
 
-    @Column(length = 1000)
-    private String fullText;
-
-    private long views = 1;
+    private Boolean status;
 
     @Enumerated(EnumType.STRING)
-    private TypeOfNews typeOfNews;
-
-    private boolean archived;
-
+    private Role role;
 
 }

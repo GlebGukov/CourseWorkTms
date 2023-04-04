@@ -9,7 +9,7 @@
 <header th:insert="blocks/header :: header"></header>
 
 <div class="container mt-5 mb-5">
-    <h3>News not founded</h3>
+    <h3 th:text="'Error: ' + ${ex.getMessage}" />
 </div>
 <footer th:insert="blocks/footer :: footer"></footer>
 </body>

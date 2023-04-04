@@ -15,7 +15,7 @@
         <p th:text="${el.getAnons()}"/>
         <a th:href="'/news/reading/'+ ${el.id}" class="btn btn-warning">More information's</a><br>
         <form th:action="'/archive/'+${el.id}+'/toActual'" method="post">
-            <button type="submit" class="btn btn-info mr-2">
+            <button type="submit" class="btn btn-outline-info">
                 Send news to actual
             </button>
         </form>

@@ -14,12 +14,14 @@
         <h3 th:text="${el.getTitle()}"/>
         <p th:text="${el.getFullText}"/>
         <p th:text="'Просмотры:  '+ ${el.getViews}" class="fst-italic text-info font-weight-bold" col/>
-        <a th:href="'/news/edit/'+${el.getId}" class="btn btn-warning">Edit this news</a>
+        <a th:href="'/news/edit/'+${el.getId}" class="btn btn-outline-warning">Edit this news</a>
+        <br>
         <form th:action="'/news/delete/'+${el.id}" method="post">
-            <button type="submit" class="btn btn-danger mr-2">Delete this news</button>
+            <button type="submit" class="btn btn-outline-danger">Delete this news</button>
         </form>
-        <form th:action="'/archive/'+${el.id}" method="post">
-            <button type="submit" class="btn btn-danger mr-2">
+        <br>
+        <form th:action="'/archive/'+${el.id}" method="post" th:if="${el.archived==false}">
+            <button type="submit" class="btn btn-outline-info">
                 Send news to the archive
             </button>
         </form>

@@ -1,36 +1,29 @@
-package com.example.coursework.models;
+package com.example.coursework.dto;
 
 import com.example.coursework.TypeOfNews;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
-
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 
-@Entity(name = "news")
-public class PostNewsEntity {
+@Component
+public class PostNewsDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title, anons;
 
-    @Column(length = 1000)
     private String fullText;
 
     private long views = 1;
 
-    @Enumerated(EnumType.STRING)
     private TypeOfNews typeOfNews;
 
-    private boolean archived;
-
-
+    private boolean archived = false;
 }

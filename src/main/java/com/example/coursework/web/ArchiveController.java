@@ -1,8 +1,9 @@
 package com.example.coursework.web;
 
 import com.example.coursework.models.PostNewsEntity;
-import com.example.coursework.repositories.PostNewsRepository;
+import com.example.coursework.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -15,29 +16,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/archive")
 public class ArchiveController {
     @Autowired
-    private PostNewsRepository postNewsRepository;
+    private NewsService newsService;
 
     @GetMapping("/{month}")
+    @PreAuthorize("hasAuthority('users:write')")
     public String getArchiveNews(@PathVariable(name = "month") String month,
                                  Model model) {
-        Iterable<PostNewsEntity> newsArchive = postNewsRepository.findByArchivedIsTrue();
+        Iterable<PostNewsEntity> newsArchive = newsService.newsArchive();
         model.addAttribute("newsArchive", newsArchive);
         model.addAttribute("month", month);
         return "news-archives";
     }
 
-
-    @Transactional
     @PostMapping("/{id}")
+    @PreAuthorize("hasAuthority('users:write')")
     public String addNewsToArchive(@PathVariable(name = "id") long id) {
-        postNewsRepository.archived(true, id);
+        newsService.addNewsToArchiveOrActual(true, id);
         return "redirect:/";
     }
 
     @Transactional
     @PostMapping("/{id}/toActual")
+    @PreAuthorize("hasAuthority('users:write')")
     public String addNewsToActual(@PathVariable(name = "id") long id) {
-        postNewsRepository.archived(false, id);
+        newsService.addNewsToArchiveOrActual(false, id);
         return "redirect:/";
     }
 }

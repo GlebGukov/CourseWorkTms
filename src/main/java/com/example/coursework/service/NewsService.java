@@ -1,6 +1,7 @@
 package com.example.coursework.service;
 
 import com.example.coursework.dto.PostNewsDto;
+import com.example.coursework.models.PostNewsEntity;
 
 public interface NewsService {
 
@@ -13,4 +14,8 @@ public interface NewsService {
     Iterable<PostNewsDto> getNews(String typeOfNews);
 
     PostNewsDto toDetails(long id);
+
+    Iterable<PostNewsEntity> newsArchive();
+
+    void addNewsToArchiveOrActual(boolean arg, long id);
 }

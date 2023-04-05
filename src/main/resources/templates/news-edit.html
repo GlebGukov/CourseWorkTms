@@ -9,14 +9,12 @@
 <header th:insert="blocks/header :: header"></header>
 
 <div class="container mt-5 mb-5">
-    <h2>Edit news</h2>
-    <form method="post">
-        <div th:each="el : ${news}">
-            <input type="text" th:value="${el.getTitle}" name="title" placeholder="enter the title of the news"
-                   class="form-control"><br>
-            <input type="text" th:value="${el.getAnons}" name="anons" placeholder="enter the anons of the news"
-                   class="form-control"><br>
-            <textarea name="fullText" placeholder="enter content" class="form-control" th:text="${el.getFullText}"/><br>
+    <h2> Edit news</h2>
+    <form method="post" th:action="'/news/edit/'+${news.getId()}">
+        <div>
+            <label for="title" th:text="Title"/><textarea th:text="${news.getTitle()}" name="title" class="form-control" id="title"/><br>
+            <label for="anons" th:text="Anons"/><textarea th:text="${news.getAnons()}" name="anons" class="form-control" id="anons"/><br>
+            <label for="text" th:text="Text"/><textarea th:text="${news.getFullText()}" name="fullText" class="form-control" id="text"/><br>
             <button type="submit" class="btn btn-outline-success">Edit news</button>
         </div>
     </form>

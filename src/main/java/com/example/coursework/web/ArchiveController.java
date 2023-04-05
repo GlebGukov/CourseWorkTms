@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -24,7 +25,7 @@ public class ArchiveController {
     @PreAuthorize("hasAuthority('write')")
     public String getArchiveNews(@PathVariable(name = "month") String month,
                                  Model model) {
-        Iterable<PostNewsEntity> newsArchive = newsService.newsArchive();
+        List<PostNewsEntity> newsArchive = newsService.newsListArchive();
         model.addAttribute("newsArchive", newsArchive);
         model.addAttribute("month", month);
         return "news-archives";

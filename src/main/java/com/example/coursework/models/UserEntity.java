@@ -1,6 +1,7 @@
 package com.example.coursework.models;
 
 import com.example.coursework.security.Role;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,14 +26,15 @@ public class UserEntity {
     )
     private UUID id;
 
-    private String login,
-            password,
-            first_name,
-            last_name,
-            email;
-
+    @NotNull
+    private String login;
+    @NotNull
+    private String password;
+    private String first_name;
+    private String last_name;
+    @NotNull
+    private String email;
     private Boolean status;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 

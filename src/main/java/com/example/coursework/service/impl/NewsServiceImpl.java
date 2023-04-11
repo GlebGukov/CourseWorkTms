@@ -54,8 +54,8 @@ public class NewsServiceImpl implements NewsService {
     public List<PostNewsDto> getListNews(String type) {
         TypeOfNews typeOfNews = converterStringToTypeNews.convertStringToTypeNews(type);
         List<PostNewsEntity> postNewsEntities =
-                postNewsRepository.findByTypeOfNewsAndArchivedIsFalse(typeOfNews);
-        return newsMapper.iterableNewsToDto(postNewsEntities);
+                postNewsRepository.findByTypeOfNewsAndArchivedIsFalseAndApprovedIsTrue(typeOfNews);
+        return newsMapper.toListNewsToDto(postNewsEntities);
     }
 
     @Override
@@ -79,5 +79,24 @@ public class NewsServiceImpl implements NewsService {
     public PostNewsDto getRandomNews() {
         PostNewsEntity postNewsEntity = postNewsRepository.randomNewsFromDataBase();
         return newsMapper.toDto(postNewsEntity);
+    }
+
+    public PostNewsDto randomWorldNews() {
+        PostNewsEntity postNewsEntity = postNewsRepository.randomWorldNewsFromDataBase();
+        return newsMapper.toDto(postNewsEntity);
+    }
+
+    public PostNewsDto randomDesignNews() {
+        PostNewsEntity postNewsEntity = postNewsRepository.randomDesignNewsFromDataBase();
+        return newsMapper.toDto(postNewsEntity);
+    }
+
+    public List<PostNewsDto> getSuggestedNews() {
+        List<PostNewsEntity> byApprovedFalse = postNewsRepository.findByApprovedFalse();
+        return newsMapper.toListNewsToDto(byApprovedFalse);
+    }
+
+    public void publishNews(boolean arg, UUID id) {
+        postNewsRepository.publishNews(arg, id);
     }
 }

@@ -20,6 +20,10 @@ public class MainController {
     public String home(Model model) {
         model.addAttribute("title", "Home page");
         PostNewsDto randomNews = service.getRandomNews();
+        PostNewsDto randomWorldNews = service.randomWorldNews();
+        PostNewsDto randomDesignNews = service.randomDesignNews();
+        model.addAttribute("design", randomDesignNews);
+        model.addAttribute("world", randomWorldNews);
         model.addAttribute("news", randomNews);
         return "home";
     }

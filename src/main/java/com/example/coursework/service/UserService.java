@@ -4,6 +4,6 @@ import com.example.coursework.dto.UserDto;
 
 public interface UserService {
 
-    UserDto saveToDataBase (UserDto userDto);
+    void saveToDataBase(UserDto userDto);
 
 }

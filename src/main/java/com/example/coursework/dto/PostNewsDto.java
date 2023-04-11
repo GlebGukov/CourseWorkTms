@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
@@ -14,7 +13,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 
-@Component
 public class PostNewsDto {
 
     private UUID id;
@@ -28,4 +26,5 @@ public class PostNewsDto {
     private TypeOfNews typeOfNews;
 
     private boolean archived = false;
+    private boolean approved = false;
 }

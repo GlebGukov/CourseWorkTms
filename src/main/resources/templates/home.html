@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title th:text="${title}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -13,7 +14,7 @@
     <div class="p-4 p-md-5 mb-4 rounded text-bg-dark">
         <div class="col-md-6 px-0">
             <h1 class="display-4 fst-italic">Stay up to date with the news</h1>
-            <p class="lead my-3" th:text="${news.getFullText()}"/>
+            <p class="lead my-3" th:text="${news.getTitle()}"/>
             <p class="lead mb-0"><a th:href="'/news/reading/'+ ${news.id}" th:method="get" class="text-white fw-bold">Continue reading...</a></p>
         </div>
     </div>
@@ -23,11 +24,10 @@
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <strong class="d-inline-block mb-2 text-primary">World</strong>
-                    <h3 class="mb-0">Featured post</h3>
-                    <div class="mb-1 text-muted">Nov 12</div>
-                    <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to
-                        additional content.</p>
-                    <a href="#" class="stretched-link">Continue reading</a>
+                    <h3 class="mb-0" th:text="${world.getTitle()}"/>
+                    <div class="mb-1 text-muted" th:text="${world.getViews()}"/>
+                    <p class="card-text mb-auto" th:text="${world.getAnons()}"/>
+                    <a th:href="'/news/reading/'+ ${world.id}" th:method="get" class="stretched-link">Continue reading</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
                     <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
@@ -43,11 +43,10 @@
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <strong class="d-inline-block mb-2 text-success">Design</strong>
-                    <h3 class="mb-0">Post title</h3>
-                    <div class="mb-1 text-muted">Nov 11</div>
-                    <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to
-                        additional content.</p>
-                    <a href="#" class="stretched-link">Continue reading</a>
+                    <h3 class="mb-0" th:text="${design.getTitle()}"/>
+                    <div class="mb-1 text-muted" th:text="${design.getViews()}"/>
+                    <p class="mb-auto" th:text="${design.getAnons()}"/>
+                    <a th:href="'/news/reading/'+ ${design.id}" th:method="get" class="stretched-link">Continue reading</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
                     <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
@@ -61,10 +60,10 @@
         </div>
     </div>
 
-    <div class="row g-5">
+    <div class="row g-5" sec:authorize="hasAuthority('write')">
         <div class="col-md-8">
             <h3 class="pb-4 mb-4 fst-italic border-bottom">
-                From the Firehose
+                <a th:href="@{/admin}" th:method="get">Admin menu</a>
             </h3>
 
             <article class="blog-post">

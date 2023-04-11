@@ -36,6 +36,7 @@ public class PostNewsEntity {
     private TypeOfNews typeOfNews;
 
     private boolean archived;
+    private boolean approved = false;
 
 
 }

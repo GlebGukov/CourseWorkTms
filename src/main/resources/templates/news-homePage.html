@@ -13,7 +13,7 @@
 <main class="container">
     <div class="p-4 p-md-5 mb-4 rounded text-bg-dark">
         <div class="col-md-6 px-0">
-            <h1 class="display-4 fst-italic">Stay up to date with the news</h1>
+            <h3 class="display-4 fst-italic">Stay up to date with the news</h3>
             <p class="lead my-3" th:text="${news.getTitle()}"/>
             <p class="lead mb-0"><a th:href="'/news/reading/'+ ${news.id}" th:method="get" class="text-white fw-bold">Continue reading...</a></p>
         </div>
@@ -22,7 +22,7 @@
     <div class="row mb-2">
         <div class="col-md-6">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
+                <div class="col p-4 d-flex flex-column position-static" th:if="${world.isArchived() == false && world.isApproved()==true}">
                     <strong class="d-inline-block mb-2 text-primary">World</strong>
                     <h3 class="mb-0" th:text="${world.getTitle()}"/>
                     <div class="mb-1 text-muted" th:text="${world.getViews()}"/>
@@ -41,8 +41,8 @@
         </div>
         <div class="col-md-6">
             <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                <div class="col p-4 d-flex flex-column position-static">
-                    <strong class="d-inline-block mb-2 text-success">Design</strong>
+                <div class="col p-4 d-flex flex-column position-static" th:if="${design.isArchived() == false && design.isApproved() == true }">
+                    <strong class="d-inline-block mb-2 text-success" >Design</strong>
                     <h3 class="mb-0" th:text="${design.getTitle()}"/>
                     <div class="mb-1 text-muted" th:text="${design.getViews()}"/>
                     <p class="mb-auto" th:text="${design.getAnons()}"/>

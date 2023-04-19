@@ -1,16 +1,25 @@
 package com.example.coursework.service.impl;
 
 import com.example.coursework.converter.ConverterStringToTypeNews;
+import com.example.coursework.dto.CommentsDto;
 import com.example.coursework.dto.PostNewsDto;
+import com.example.coursework.dto.UserDto;
+import com.example.coursework.mapper.CommentsMapper;
 import com.example.coursework.mapper.NewsMapper;
+import com.example.coursework.mapper.UserMapper;
 import com.example.coursework.models.PostNewsEntity;
 import com.example.coursework.models.TypeOfNews;
+import com.example.coursework.models.UserEntity;
+import com.example.coursework.repositories.CommentRepository;
 import com.example.coursework.repositories.PostNewsRepository;
+import com.example.coursework.repositories.UserRepository;
 import com.example.coursework.service.NewsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,9 +28,7 @@ import java.util.UUID;
 public class NewsServiceImpl implements NewsService {
 
     private final PostNewsRepository postNewsRepository;
-
     private final NewsMapper newsMapper;
-
     private final ConverterStringToTypeNews converterStringToTypeNews;
 
     @Override
@@ -33,6 +40,7 @@ public class NewsServiceImpl implements NewsService {
     public void saveToDataBase(PostNewsDto postNewsDto, String type) {
         TypeOfNews typeOfNews = converterStringToTypeNews.convertStringToTypeNews(type);
         postNewsDto.setTypeOfNews(typeOfNews);
+        postNewsDto.setId(UUID.randomUUID());
         newsMapper.toDto(postNewsRepository.save
                 (newsMapper.toEntity(postNewsDto)));
     }
@@ -55,7 +63,7 @@ public class NewsServiceImpl implements NewsService {
         TypeOfNews typeOfNews = converterStringToTypeNews.convertStringToTypeNews(type);
         List<PostNewsEntity> postNewsEntities =
                 postNewsRepository.findByTypeOfNewsAndArchivedIsFalseAndApprovedIsTrue(typeOfNews);
-        return newsMapper.toListNewsToDto(postNewsEntities);
+        return newsMapper.toListNewsDto(postNewsEntities);
     }
 
     @Override
@@ -93,10 +101,11 @@ public class NewsServiceImpl implements NewsService {
 
     public List<PostNewsDto> getSuggestedNews() {
         List<PostNewsEntity> byApprovedFalse = postNewsRepository.findByApprovedFalse();
-        return newsMapper.toListNewsToDto(byApprovedFalse);
+        return newsMapper.toListNewsDto(byApprovedFalse);
     }
 
     public void publishNews(boolean arg, UUID id) {
         postNewsRepository.publishNews(arg, id);
     }
+
 }

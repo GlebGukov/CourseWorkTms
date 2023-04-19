@@ -25,13 +25,13 @@ public class MainController {
         model.addAttribute("design", randomDesignNews);
         model.addAttribute("world", randomWorldNews);
         model.addAttribute("news", randomNews);
-        return "home";
+        return "news-homePage";
     }
 
     @PostMapping()
     public String getHome(Model model) {
         model.addAttribute("title", "Home page");
-        return "home";
+        return "news-homePage";
     }
 
     @GetMapping("/profile")

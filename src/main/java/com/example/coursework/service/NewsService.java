@@ -29,4 +29,5 @@ public interface NewsService {
     List<PostNewsDto> getSuggestedNews();
 
     void publishNews(boolean arg, UUID id);
+
 }

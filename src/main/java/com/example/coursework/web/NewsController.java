@@ -1,6 +1,7 @@
 package com.example.coursework.web;
 
 import com.example.coursework.dto.PostNewsDto;
+import com.example.coursework.service.impl.CommentService;
 import com.example.coursework.service.impl.NewsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +19,7 @@ import java.util.UUID;
 public class NewsController {
 
     private final NewsServiceImpl newsService;
+    private final CommentService commentService;
 
     @GetMapping("/{title}")
     @PreAuthorize("hasAuthority('read')")
@@ -41,7 +43,6 @@ public class NewsController {
         return "redirect:/";
     }
 
-    //    @Transactional
     @GetMapping("/reading/{id}")
     @PreAuthorize("hasAuthority('read')")
     public String newsDetails(@PathVariable(name = "id") UUID id, Model model) {
@@ -71,6 +72,14 @@ public class NewsController {
     public String deleteNews(@PathVariable(name = "id") UUID id) {
         newsService.deleteFromDataBase(id);
         return "redirect:/";
+    }
+    @PostMapping("/comment/{id}")
+    @PreAuthorize("hasAuthority('read')")
+    public String addComment(@PathVariable(name = "id") UUID id,String comments) {
+
+        commentService.setComment(id,comments);
+        return "redirect:/";
+
     }
 }
 

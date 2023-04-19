@@ -18,7 +18,7 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "news-login";
     }
 
     @GetMapping("/registration")
@@ -29,6 +29,6 @@ public class AuthController {
     @PostMapping("/registration")
     public String registration(@ModelAttribute UserDto user) {
         userService.saveToDataBase(user);
-        return "login";
+        return "news-login";
     }
 }

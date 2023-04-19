@@ -1,7 +1,11 @@
 package com.example.coursework.web;
 
 import com.example.coursework.dto.PostNewsDto;
+import com.example.coursework.dto.UserDto;
+import com.example.coursework.models.UserEntity;
+import com.example.coursework.repositories.UserRepository;
 import com.example.coursework.service.NewsService;
+import com.example.coursework.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -22,11 +26,12 @@ import java.util.UUID;
 @PreAuthorize("hasAuthority('write')")
 public class AdminController {
     private final NewsService newsService;
+    private final UserServiceImpl userService;
+    private final UserRepository userRepository;
 
     @GetMapping()
     @PreAuthorize("hasAuthority('write')")
     public String adminPage() {
-
         return "news-adminPage";
     }
 
@@ -35,7 +40,7 @@ public class AdminController {
     public String viewSuggestedNews(Model model) {
         List<PostNewsDto> suggestedNews = newsService.getSuggestedNews();
         model.addAttribute("news", suggestedNews);
-        return "news-suggested";
+        return "news-admin-suggested";
     }
 
     @Transactional
@@ -43,6 +48,19 @@ public class AdminController {
     @PreAuthorize("hasAuthority('write')")
     public String publishNews(@PathVariable(name = "id") UUID id) {
         newsService.publishNews(true, id);
+        return "redirect:/admin";
+    }
+    @GetMapping("/browsingUsers")
+    @PreAuthorize("hasAuthority('create')")
+    public String browsingUsers(Model model){
+        List<UserDto> allUsers = userService.getAllUsers();
+        model.addAttribute("users",allUsers);
+        return "news-admin-browsingUsers";
+    }
+    @PostMapping("/{id}/role")
+    @PreAuthorize("hasAuthority('create')")
+    public String changeRoleUsers(@PathVariable UUID id,String role){
+        userService.changeRole(id, role);
         return "redirect:/";
     }
 }

@@ -1,16 +1,17 @@
 package com.example.coursework.models;
 
 import com.example.coursework.security.Role;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @Data
@@ -23,13 +24,16 @@ public class UserEntity {
 
     @Id
     private UUID id;
-    @NotNull
+    @NotEmpty(message = "Name should not be empty")
     private String login;
-    @NotNull
+    @Size(min = 4, max = 20, message = "Min 4 characters, max - 20")
     private String password;
+    @NotEmpty(message = "please, write you first name")
     private String first_name;
+    @NotEmpty(message = "please, write you last name")
     private String last_name;
-    @NotNull
+    @Email
+    @NotEmpty(message = "Email should not be empty")
     private String email;
     private Boolean status;
     @Enumerated(EnumType.STRING)

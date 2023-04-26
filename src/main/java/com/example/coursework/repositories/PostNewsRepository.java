@@ -29,14 +29,14 @@ public interface PostNewsRepository extends CrudRepository<PostNewsEntity, UUID>
     @Query("UPDATE news SET approved = :arg WHERE id = :id ")
     void publishNews(Boolean arg, @Param("id") UUID id);
 
-    @Query(value = "select * from news where approved = true order by random() limit 1", nativeQuery = true)
+    @Query(value = "select * from news where approved = true and archived = false order by random() limit 1", nativeQuery = true)
     PostNewsEntity randomNewsFromDataBase();
 
-    @Query(value = "select * from news where type_of_news = 'World' and approved = true order by random() limit 1",
+    @Query(value = "select * from news where type_of_news = 'World' and approved = true and archived = false order by random() limit 1",
             nativeQuery = true)
     PostNewsEntity randomWorldNewsFromDataBase();
 
-    @Query(value = "select * from news where type_of_news = 'Design' and approved = true order by random() limit 1",
+    @Query(value = "select * from news where type_of_news = 'Design' and approved = true and archived = false order by random() limit 1",
             nativeQuery = true)
     PostNewsEntity randomDesignNewsFromDataBase();
 

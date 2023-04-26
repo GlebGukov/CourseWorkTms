@@ -1,0 +1,1 @@
+-- alter table news alter column full_text SET MAXVALUE 2500;

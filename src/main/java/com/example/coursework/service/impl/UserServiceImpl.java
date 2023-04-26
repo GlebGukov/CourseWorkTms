@@ -14,7 +14,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -36,11 +35,13 @@ public class UserServiceImpl implements UserService {
             userMapper.toDto(userRepository.save(userMapper.toEntity(userDto)));
         } else throw new IllegalArgumentException("incorrect data entered, please check you login or password");
     }
-    public List<UserDto> getAllUsers(){
+
+    public List<UserDto> getAllUsers() {
         List<UserEntity> userEntityList = userRepository.findAllByIdNotNull();
         return userMapper.toDto(userEntityList);
     }
-    public void changeRole(UUID id, String type){
+
+    public void changeRole(UUID id, String type) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow();
         Role role = converterStringToRole.converterStringToRole(type);
         userEntity.setRole(role);

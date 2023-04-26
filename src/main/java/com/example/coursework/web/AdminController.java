@@ -2,7 +2,6 @@ package com.example.coursework.web;
 
 import com.example.coursework.dto.PostNewsDto;
 import com.example.coursework.dto.UserDto;
-import com.example.coursework.models.UserEntity;
 import com.example.coursework.repositories.UserRepository;
 import com.example.coursework.service.NewsService;
 import com.example.coursework.service.impl.UserServiceImpl;
@@ -50,16 +49,18 @@ public class AdminController {
         newsService.publishNews(true, id);
         return "redirect:/admin";
     }
+
     @GetMapping("/browsingUsers")
     @PreAuthorize("hasAuthority('create')")
-    public String browsingUsers(Model model){
+    public String browsingUsers(Model model) {
         List<UserDto> allUsers = userService.getAllUsers();
-        model.addAttribute("users",allUsers);
+        model.addAttribute("users", allUsers);
         return "news-admin-browsingUsers";
     }
+
     @PostMapping("/{id}/role")
     @PreAuthorize("hasAuthority('create')")
-    public String changeRoleUsers(@PathVariable UUID id,String role){
+    public String changeRoleUsers(@PathVariable UUID id, String role) {
         userService.changeRole(id, role);
         return "redirect:/";
     }

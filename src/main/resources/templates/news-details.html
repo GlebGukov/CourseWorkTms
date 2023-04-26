@@ -12,6 +12,7 @@
 <div class="container mt-5">
     <div class="alert alert-into mt-2">
         <h1 th:text="${news.getTitle()}"/>
+        <p th:text="${news.getAnons()}">
         <p th:text="${news.getFullText()}"/>
         <p th:text="'Просмотры:  '+ ${news.getViews()}" class="fst-italic text-info font-weight-bold"/>
         <form th:action="'/news/comment/'+${news.getId()}" method="post" sec:authorize="hasAuthority('read')">

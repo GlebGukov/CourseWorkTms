@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConverterStringToRole {
 
-    public Role converterStringToRole(String role){
-        return Role.valueOf(Role.class,role);
+    public Role converterStringToRole(String role) {
+        return Role.valueOf(Role.class, role);
     }
 }

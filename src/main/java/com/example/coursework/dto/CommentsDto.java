@@ -1,11 +1,11 @@
 package com.example.coursework.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,10 +15,9 @@ import java.time.LocalDateTime;
 
 public class CommentsDto {
 
+    @Size(min = 5, max = 500, message = "Min 5 characters, max - 500 ")
     private String comment;
     private LocalDateTime date;
-    @JsonBackReference
     private PostNewsDto postNews;
-    @JsonBackReference
     private UserDto user;
 }

@@ -4,10 +4,14 @@ import com.example.coursework.dto.UserDto;
 import com.example.coursework.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.validation.Valid;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Controller
@@ -27,7 +31,11 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute UserDto user) {
+    public String registration(@ModelAttribute @Valid UserDto user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "/registration";
+        }
+        user.setId(UUID.randomUUID());
         userService.saveToDataBase(user);
         return "news-login";
     }

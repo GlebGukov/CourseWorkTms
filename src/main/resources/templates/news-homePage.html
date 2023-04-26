@@ -29,14 +29,6 @@
                     <p class="card-text mb-auto" th:text="${world.getAnons()}"/>
                     <a th:href="'/news/reading/'+ ${world.id}" th:method="get" class="stretched-link">Continue reading</a>
                 </div>
-                <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
-                         role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                         focusable="false"><title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c"></rect>
-                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-                    </svg>
-                </div>
             </div>
         </div>
         <div class="col-md-6">
@@ -48,22 +40,14 @@
                     <p class="mb-auto" th:text="${design.getAnons()}"/>
                     <a th:href="'/news/reading/'+ ${design.id}" th:method="get" class="stretched-link">Continue reading</a>
                 </div>
-                <div class="col-auto d-none d-lg-block">
-                    <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg"
-                         role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                         focusable="false"><title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c"></rect>
-                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-                    </svg>
-                </div>
             </div>
         </div>
     </div>
 
-    <div class="row g-5" sec:authorize="hasAuthority('write')">
+    <div class="row g-5">
         <div class="col-md-8">
             <h3 class="pb-4 mb-4 fst-italic border-bottom">
-                <a th:href="@{/admin}" th:method="get">Admin menu</a>
+                <a th:href="@{/admin}" th:method="get" sec:authorize="isAuthenticated()">Admin menu</a>
             </h3>
 
             <article class="blog-post">
@@ -233,20 +217,9 @@
                 </div>
 
                 <div class="p-4">
-                    <h4 class="fst-italic">Archives</h4>
+                    <h4 class="fst-italic" sec:authorize="hasAuthority('write')">Archives</h4>
                     <ol class="list-unstyled mb-0">
-                        <li><a href="/archive/January">January</a></li>
-                        <li><a href="/archive/February">February</a></li>
-                        <li><a href="/archive/March">March</a></li>
-                        <li><a href="/archive/April">April</a></li>
-                        <li><a href="/archive/May">May</a></li>
-                        <li><a href="/archive/June">June</a></li>
-                        <li><a href="/archive/July">July</a></li>
-                        <li><a href="/archive/August">August</a></li>
-                        <li><a href="/archive/September">September</a></li>
-                        <li><a href="/archive/October">October</a></li>
-                        <li><a href="/archive/November">November</a></li>
-                        <li><a href="/archive/December">December</a></li>
+                        <li><a href="/archive/January">Archive</a></li>
                     </ol>
                 </div>
 

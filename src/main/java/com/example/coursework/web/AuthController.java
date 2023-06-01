@@ -2,6 +2,7 @@ package com.example.coursework.web;
 
 import com.example.coursework.dto.UserDto;
 import com.example.coursework.service.UserService;
+import com.example.coursework.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -35,7 +36,6 @@ public class AuthController {
         if (bindingResult.hasErrors()) {
             return "/registration";
         }
-        user.setId(UUID.randomUUID());
         userService.saveToDataBase(user);
         return "news-login";
     }

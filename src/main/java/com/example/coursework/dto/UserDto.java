@@ -28,8 +28,7 @@ public class UserDto {
     private String first_name;
     @NotEmpty(message = "please, write you last name")
     private String last_name;
-    @Email
-    @NotEmpty(message = "Email should not be empty")
+    @Email(message = "please check in correct you email ")
     private String email;
     private Boolean status = true;
     private Role role;

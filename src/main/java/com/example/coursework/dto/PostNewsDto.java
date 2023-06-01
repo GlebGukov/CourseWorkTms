@@ -29,6 +29,5 @@ public class PostNewsDto {
     private TypeOfNews typeOfNews;
     private boolean archived = false;
     private boolean approved = false;
-    @JsonIgnore
     private List<CommentsDto> comments;
 }

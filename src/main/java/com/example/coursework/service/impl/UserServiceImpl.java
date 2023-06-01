@@ -13,12 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import javax.validation.Validation;
 import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
 
-@Validated
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -28,13 +29,15 @@ public class UserServiceImpl implements UserService {
     private final ConverterStringToRole converterStringToRole;
 
     @Override
-    public void saveToDataBase(UserDto userDto) {
-        if (StringUtils.hasLength(userDto.getLogin()) && StringUtils.hasLength(userDto.getPassword())) {
+    public void saveToDataBase(@Valid UserDto userDto) {
+//        if (StringUtils.hasLength(userDto.getLogin()) && StringUtils.hasLength(userDto.getPassword())) {
+            userDto.setId(UUID.randomUUID());
             userDto.setPassword(encoder.encode(userDto.getPassword()));
             userDto.setRole(Role.ROLE_USER);
             userMapper.toDto(userRepository.save(userMapper.toEntity(userDto)));
-        } else throw new IllegalArgumentException("incorrect data entered, please check you login or password");
-    }
+        }
+//        else throw new IllegalArgumentException("incorrect data entered, please check you login or password");
+//    }
 
     public List<UserDto> getAllUsers() {
         List<UserEntity> userEntityList = userRepository.findAllByIdNotNull();

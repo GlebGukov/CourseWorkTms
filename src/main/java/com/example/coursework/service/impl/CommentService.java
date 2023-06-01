@@ -13,14 +13,18 @@ import com.example.coursework.models.UserEntity;
 import com.example.coursework.repositories.CommentRepository;
 import com.example.coursework.repositories.PostNewsRepository;
 import com.example.coursework.repositories.UserRepository;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
+
+
 @Service
 public class CommentService {
     private final UserRepository userRepository;
@@ -45,13 +49,6 @@ public class CommentService {
                 .user(userDto)
                 .build();
         CommentsEntity commentsEntity = commentsMapperImpl.toEntity(commentsDto);
-//        CommentsEntity commentsEntity = CommentsEntity.builder()
-//                .comment(comment)
-//                .user(userEntity)
-//                .postNews(newsEntity)
-//                .date(LocalDateTime.now())
-//                .build();
-
         newsEntity.getComments().add(commentsEntity);
         commentRepository.save(commentsEntity);
     }

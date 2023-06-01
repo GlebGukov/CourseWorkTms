@@ -37,6 +37,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
     annotationProcessor 'org.projectlombok:lombok'
 
+    testImplementation group: 'junit', name: 'junit'
+    testImplementation 'org.mockito:mockito-core:5.2.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.2.0'
+
     runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

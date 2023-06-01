@@ -1,5 +1,6 @@
 package com.example.coursework.web;
 
+import com.example.coursework.dto.CommentsDto;
 import com.example.coursework.dto.PostNewsDto;
 import com.example.coursework.service.impl.CommentService;
 import com.example.coursework.service.impl.NewsServiceImpl;
@@ -34,7 +35,8 @@ public class NewsController {
 
     @GetMapping("/add")
     @PreAuthorize("hasAuthority('read')")
-    public String newsAdd() {
+    public String newsAdd(Model model) {
+        model.addAttribute("news");
         return "news-add";
     }
 
@@ -42,7 +44,7 @@ public class NewsController {
     @PreAuthorize("hasAuthority('read')")
     public String newsAdd(@Valid PostNewsDto postNewsDto, BindingResult bindingResult, @RequestParam String typeNews) {
         if (bindingResult.hasErrors()) {
-            return "redirect:/add";
+            return "redirect:/news/add";
         }
         newsService.saveToDataBase(postNewsDto, typeNews);
         return "redirect:/";

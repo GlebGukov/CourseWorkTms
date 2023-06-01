@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <title>Browsing users</title>
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+<div class="container">
+
+    <div th:each="el : ${users}" class="alert alert-into mt-2 border border-info-subtle">
+        <ul class="list-group list-group-horizontal">
+            <li class="list-group-item" th:text="${el.getFirst_name()}"/>
+            <li class="list-group-item" th:text="${el.getLast_name()}"/>
+            <li class="list-group-item" th:text="${el.getEmail()}"/>
+            <li class="list-group-item" th:text="${el.getLogin()}"/>
+            <li class="list-group-item" th:text="${el.getRole()}"/>
+            <br>
+            <form th:action="'/admin/'+${el.id}+'/ban'" method="post">
+                <button type="submit" class="btn btn-outline-info">
+                    BAN BLYAT!!!
+                </button>
+            </form><br>
+
+            <form th:action="'/admin/'+${el.id}+'/role'" method="post">
+                <select class="form-select" name="role">
+                    <option selected>Select new role</option>
+                    <option value="ROLE_ADMIN">Admin</option>
+                    <option value="ROLE_USER">User</option>
+                </select>
+                <button type="submit">Submit</button>
+            </form>
+        </ul>
+    </div>
+</div>
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>

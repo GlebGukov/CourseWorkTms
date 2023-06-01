@@ -1,20 +1,23 @@
 package com.example.coursework.config;
 
-import com.example.coursework.security.Role;
+import com.example.coursework.security.AccessDeniedHandlerImpl;
+import com.example.coursework.security.AuthenticationFailureHandlerImpl;
+import com.example.coursework.service.impl.UserDetailsServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+@RequiredArgsConstructor
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
+
+    final UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Bean
     public BCryptPasswordEncoder encoder() {
@@ -22,38 +25,25 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(BCryptPasswordEncoder encoder) {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user")
-                .password(encoder.encode("user"))
-                .authorities(Role.USER.getAuthorities())
-                .build());
-        manager.createUser(User.withUsername("admin")
-                .password(encoder.encode("admin"))
-                .authorities(Role.ADMIN.getAuthorities())
-                .build());
-        return manager;
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity security) throws Exception {
         security.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/", "/registration", "/{title}").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/auth/login").permitAll()
-                .defaultSuccessUrl("/")
+                .userDetailsService(userDetailsServiceImpl)
+                .formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/").failureHandler(new AuthenticationFailureHandlerImpl())
                 .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout","POST"))
+                .exceptionHandling().accessDeniedHandler(new AccessDeniedHandlerImpl())
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/");
         return security.build();
     }
+
 
 }

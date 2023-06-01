@@ -1,12 +1,10 @@
 package com.example.coursework.models;
 
-import com.example.coursework.TypeOfNews;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,20 +15,18 @@ import javax.persistence.*;
 public class PostNewsEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String title, anons;
-
-    @Column(length = 1000)
+    private UUID id;
+    private String title;
+    private String anons;
     private String fullText;
-
     private long views = 1;
-
     @Enumerated(EnumType.STRING)
     private TypeOfNews typeOfNews;
-
     private boolean archived;
+    private boolean approved = false;
+    @OneToMany(mappedBy = "postNews", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<CommentsEntity> comments;
 
 
 }

@@ -3,19 +3,17 @@ package com.example.coursework.mapper;
 import com.example.coursework.dto.PostNewsDto;
 import com.example.coursework.models.PostNewsEntity;
 import org.mapstruct.Mapper;
-import org.springframework.stereotype.Controller;
+import org.mapstruct.Mapping;
+
+import java.util.List;
 
 @Mapper(
         componentModel = "spring"
 )
-@Controller
 public interface NewsMapper {
-
+    @Mapping(target = "comments", ignore = true)
     PostNewsDto toDto(PostNewsEntity postNews);
 
     PostNewsEntity toEntity(PostNewsDto postNews);
-
-    Iterable<PostNewsEntity> iterableNewsToEntity(Iterable<PostNewsDto> iterableNewsDto);
-
-    Iterable<PostNewsDto> iterableNewsToDto(Iterable<PostNewsEntity> iterableNewsEntity);
+    List<PostNewsDto> toListNewsDto(List<PostNewsEntity> listNewsEntity);
 }

@@ -1,4 +1,4 @@
-package com.example.coursework;
+package com.example.coursework.models;
 
 public enum TypeOfNews {
 
@@ -12,6 +12,6 @@ public enum TypeOfNews {
     Science,
     Health,
     Style,
-    Travel;
+    Travel
 
 }

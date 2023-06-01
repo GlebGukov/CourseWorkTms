@@ -1,82 +1,103 @@
 package com.example.coursework.service.impl;
 
-import com.example.coursework.TypeOfNews;
-import com.example.coursework.converter.ConverterStringToType;
+import com.example.coursework.converter.ConverterStringToTypeNews;
 import com.example.coursework.dto.PostNewsDto;
 import com.example.coursework.mapper.NewsMapper;
 import com.example.coursework.models.PostNewsEntity;
+import com.example.coursework.models.TypeOfNews;
 import com.example.coursework.repositories.PostNewsRepository;
 import com.example.coursework.service.NewsService;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@AllArgsConstructor
-@NoArgsConstructor
+import java.util.List;
+import java.util.UUID;
 
+@RequiredArgsConstructor
 @Service
 public class NewsServiceImpl implements NewsService {
 
-    @Autowired
-    private PostNewsRepository postNewsRepository;
-    @Autowired
-    private NewsMapper newsMapper;
-
-    @Autowired
-    private ConverterStringToType converterStringToType;
+    private final PostNewsRepository postNewsRepository;
+    private final NewsMapper newsMapper;
+    private final ConverterStringToTypeNews converterStringToTypeNews;
 
     @Override
-    public PostNewsDto saveToDB(PostNewsDto postNewsDto, String type) {
-        TypeOfNews typeOfNews = converterStringToType.convertStringToTypeNews(type);
+    public PostNewsDto getNews(UUID id) {
+        return newsMapper.toDto(postNewsRepository.findById(id).orElseThrow());
+
+    }
+
+    @Override
+    public void saveToDataBase(PostNewsDto postNewsDto, String type) {
+        TypeOfNews typeOfNews = converterStringToTypeNews.convertStringToTypeNews(type);
         postNewsDto.setTypeOfNews(typeOfNews);
-        return newsMapper.toDto(postNewsRepository.save
+        postNewsDto.setId(UUID.randomUUID());
+        newsMapper.toDto(postNewsRepository.save
                 (newsMapper.toEntity(postNewsDto)));
     }
 
-    @Override
-    public PostNewsDto makeChanges(PostNewsDto postNewsDto, long id) {
+    public void makeChanges(UUID id, PostNewsDto postNewsDto) {
         PostNewsEntity postNewsEntity = postNewsRepository.findById(id).orElseThrow();
-        if (postNewsDto == null) {
-            return newsMapper.toDto(postNewsEntity);
-        } else {
-            postNewsEntity.setAnons(postNewsDto.getAnons());
-            postNewsEntity.setTitle(postNewsDto.getTitle());
-            postNewsEntity.setFullText(postNewsDto.getFullText());
-            return newsMapper.toDto(postNewsRepository.save(postNewsEntity));
-        }
+        postNewsEntity.setAnons(postNewsDto.getAnons());
+        postNewsEntity.setTitle(postNewsDto.getTitle());
+        postNewsEntity.setFullText(postNewsDto.getFullText());
+        postNewsRepository.save(postNewsEntity);
     }
 
     @Override
-    public void deleteFromDB(long id) {
+    public void deleteFromDataBase(UUID id) {
         postNewsRepository.deleteById(id);
     }
 
     @Override
-    public Iterable<PostNewsDto> getNews(String type) {
-        TypeOfNews typeOfNews = converterStringToType.convertStringToTypeNews(type);
-        Iterable<PostNewsEntity> postNewsEntities =
-                postNewsRepository.findByTypeOfNewsAndArchivedIsFalse(typeOfNews);
-        return newsMapper.iterableNewsToDto(postNewsEntities);
+    public List<PostNewsDto> getListNews(String type) {
+        TypeOfNews typeOfNews = converterStringToTypeNews.convertStringToTypeNews(type);
+        List<PostNewsEntity> postNewsEntities =
+                postNewsRepository.findByTypeOfNewsAndArchivedIsFalseAndApprovedIsTrue(typeOfNews);
+        return newsMapper.toListNewsDto(postNewsEntities);
     }
 
     @Override
     @Transactional
-    public PostNewsDto toDetails(long id) {
-        PostNewsEntity postNewsEntity = postNewsRepository.findById(id).orElseThrow();
+    public void upView(UUID id) {
         postNewsRepository.updateViews(id);
-        return newsMapper.toDto(postNewsEntity);
     }
 
     @Override
-    public Iterable<PostNewsEntity> newsArchive() {
+    public List<PostNewsEntity> newsListArchive() {
         return postNewsRepository.findByArchivedIsTrue();
     }
 
     @Override
     @Transactional
-    public void addNewsToArchiveOrActual(boolean arg, long id) {
+    public void addNewsToArchiveOrActual(boolean arg, UUID id) {
         postNewsRepository.changeParamArchive(arg, id);
     }
+
+    @Override
+    public PostNewsDto getRandomNews() {
+        PostNewsEntity postNewsEntity = postNewsRepository.randomNewsFromDataBase();
+        return newsMapper.toDto(postNewsEntity);
+    }
+
+    public PostNewsDto randomWorldNews() {
+        PostNewsEntity postNewsEntity = postNewsRepository.randomWorldNewsFromDataBase();
+        return newsMapper.toDto(postNewsEntity);
+    }
+
+    public PostNewsDto randomDesignNews() {
+        PostNewsEntity postNewsEntity = postNewsRepository.randomDesignNewsFromDataBase();
+        return newsMapper.toDto(postNewsEntity);
+    }
+
+    public List<PostNewsDto> getSuggestedNews() {
+        List<PostNewsEntity> byApprovedFalse = postNewsRepository.findByApprovedFalse();
+        return newsMapper.toListNewsDto(byApprovedFalse);
+    }
+
+    public void publishNews(boolean arg, UUID id) {
+        postNewsRepository.publishNews(arg, id);
+    }
+
 }

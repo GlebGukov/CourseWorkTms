@@ -1,3 +1,4 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 create table users
 (
     id         UUID primary key,
@@ -7,5 +8,5 @@ create table users
     last_name  varchar(30),
     email      varchar(40),
     status     boolean default 'true',
-    role       varchar(10) default 'USER'
+    role       varchar(10) default 'ROLE_USER'
 );

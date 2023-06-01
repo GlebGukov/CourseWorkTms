@@ -16,7 +16,6 @@ public interface NewsService {
 
     void deleteFromDataBase(UUID id);
 
-    //
     List<PostNewsDto> getListNews(String typeOfNews);
 
     void upView(UUID id);
@@ -26,4 +25,9 @@ public interface NewsService {
     void addNewsToArchiveOrActual(boolean arg, UUID id);
 
     PostNewsDto getRandomNews();
+
+    List<PostNewsDto> getSuggestedNews();
+
+    void publishNews(boolean arg, UUID id);
+
 }

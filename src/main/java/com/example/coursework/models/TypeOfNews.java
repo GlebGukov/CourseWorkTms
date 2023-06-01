@@ -12,6 +12,6 @@ public enum TypeOfNews {
     Science,
     Health,
     Style,
-    Travel;
+    Travel
 
 }

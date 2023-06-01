@@ -5,55 +5,34 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
-import java.util.Collection;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 
-@Component
-public class UserDto implements UserDetails {
+public class UserDto {
 
-    private String login,
-            first_name,
-            last_name,
-            email,
-            password;
+    private UUID id;
+    @NotEmpty(message = "Name should not be empty")
+    private String login;
+    @Size(min = 4, max = 20, message = "Min 4 characters, max - 20")
+    private String password;
+    @NotEmpty(message = "please, write you first name")
+    private String first_name;
+    @NotEmpty(message = "please, write you last name")
+    private String last_name;
+    @Email
+    @NotEmpty(message = "Email should not be empty")
+    private String email;
     private Boolean status = true;
     private Role role;
+    private List<CommentsDto> comments;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return role.getAuthorities();
-    }
-
-    @Override
-    public String getUsername() {
-        return login;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return status;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

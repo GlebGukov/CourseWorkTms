@@ -19,9 +19,7 @@ import java.util.UUID;
 public class NewsServiceImpl implements NewsService {
 
     private final PostNewsRepository postNewsRepository;
-
     private final NewsMapper newsMapper;
-
     private final ConverterStringToTypeNews converterStringToTypeNews;
 
     @Override
@@ -33,6 +31,7 @@ public class NewsServiceImpl implements NewsService {
     public void saveToDataBase(PostNewsDto postNewsDto, String type) {
         TypeOfNews typeOfNews = converterStringToTypeNews.convertStringToTypeNews(type);
         postNewsDto.setTypeOfNews(typeOfNews);
+        postNewsDto.setId(UUID.randomUUID());
         newsMapper.toDto(postNewsRepository.save
                 (newsMapper.toEntity(postNewsDto)));
     }
@@ -54,8 +53,8 @@ public class NewsServiceImpl implements NewsService {
     public List<PostNewsDto> getListNews(String type) {
         TypeOfNews typeOfNews = converterStringToTypeNews.convertStringToTypeNews(type);
         List<PostNewsEntity> postNewsEntities =
-                postNewsRepository.findByTypeOfNewsAndArchivedIsFalse(typeOfNews);
-        return newsMapper.iterableNewsToDto(postNewsEntities);
+                postNewsRepository.findByTypeOfNewsAndArchivedIsFalseAndApprovedIsTrue(typeOfNews);
+        return newsMapper.toListNewsDto(postNewsEntities);
     }
 
     @Override
@@ -80,4 +79,24 @@ public class NewsServiceImpl implements NewsService {
         PostNewsEntity postNewsEntity = postNewsRepository.randomNewsFromDataBase();
         return newsMapper.toDto(postNewsEntity);
     }
+
+    public PostNewsDto randomWorldNews() {
+        PostNewsEntity postNewsEntity = postNewsRepository.randomWorldNewsFromDataBase();
+        return newsMapper.toDto(postNewsEntity);
+    }
+
+    public PostNewsDto randomDesignNews() {
+        PostNewsEntity postNewsEntity = postNewsRepository.randomDesignNewsFromDataBase();
+        return newsMapper.toDto(postNewsEntity);
+    }
+
+    public List<PostNewsDto> getSuggestedNews() {
+        List<PostNewsEntity> byApprovedFalse = postNewsRepository.findByApprovedFalse();
+        return newsMapper.toListNewsDto(byApprovedFalse);
+    }
+
+    public void publishNews(boolean arg, UUID id) {
+        postNewsRepository.publishNews(arg, id);
+    }
+
 }

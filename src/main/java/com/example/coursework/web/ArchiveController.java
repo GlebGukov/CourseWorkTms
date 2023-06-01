@@ -22,7 +22,6 @@ public class ArchiveController {
     private NewsService newsService;
 
     @GetMapping("/{month}")
-    @PreAuthorize("hasAuthority('write')")
     public String getArchiveNews(@PathVariable(name = "month") String month,
                                  Model model) {
         List<PostNewsEntity> newsArchive = newsService.newsListArchive();

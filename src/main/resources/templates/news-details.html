@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <title th:text="${news.getTitle()}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -11,19 +12,28 @@
 <div class="container mt-5">
     <div class="alert alert-into mt-2">
         <h1 th:text="${news.getTitle()}"/>
+        <p th:text="${news.getAnons()}">
         <p th:text="${news.getFullText()}"/>
         <p th:text="'Просмотры:  '+ ${news.getViews()}" class="fst-italic text-info font-weight-bold"/>
-        <form th:action="'/news/edit/'+${news.getId()}" method="get">
+        <form th:action="'/news/comment/'+${news.getId()}" method="post" sec:authorize="hasAuthority('read')">
+            <input type="text" name="comments" placeholder="comments" class="form-control"><br>
+        </form>
+        <form th:action="'/news/edit/'+${news.getId()}" method="get" sec:authorize="hasAuthority('write')">
         <button class="btn btn-outline-warning">Edit this news</button>
         </form>
         <br>
-        <form th:action="'/news/delete/'+${news.getId()}" method="post">
+        <form th:action="'/news/delete/'+${news.getId()}" method="post" sec:authorize="hasAuthority('write')">
             <button type="submit" class="btn btn-outline-danger">Delete this news</button>
         </form>
         <br>
-        <form th:action="'/archive/'+${news.getId()}" method="post" th:if="${news.archived==false}">
+        <form th:action="'/archive/'+${news.getId()}" method="post" sec:authorize="hasAuthority('write')" th:if="${news.archived==false}">
             <button type="submit" class="btn btn-outline-info">
                 Send news to the archive
+            </button>
+        </form>
+        <form th:action="'/admin/'+${news.getId()}" method="post" sec:authorize="hasAuthority('write')" th:if="${news.approved == false}" >
+            <button type="submit" class="btn btn-outline-info">
+                Publish news
             </button>
         </form>
     </div>

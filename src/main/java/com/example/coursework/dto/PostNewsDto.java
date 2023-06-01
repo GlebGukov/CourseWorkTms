@@ -1,11 +1,13 @@
 package com.example.coursework.dto;
 
-import com.example.coursework.TypeOfNews;
+import com.example.coursework.models.TypeOfNews;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PostNewsDto {
 
-    private Long id;
+    private UUID id;
 
     private String title, anons;
 

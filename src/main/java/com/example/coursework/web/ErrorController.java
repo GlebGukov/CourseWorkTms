@@ -17,7 +17,6 @@ public class ErrorController {
 
     @ExceptionHandler(IllegalArgumentException.class)
     private String processError(IllegalArgumentException ex, Model model) {
-        System.out.println(ex.getMessage());
         model.addAttribute("ex", ex);
         return "news-error";
     }

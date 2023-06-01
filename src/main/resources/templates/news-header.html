@@ -10,10 +10,10 @@
 
 <div class="container mt-5">
     <h1 th:text="${title}"/>
-    <div th:each="el: ${typeNews}" class="alert alert-into mt-2">
-        <h3 th:text="${el.getTitle()}"/>
+    <div th:each="el : ${typeNews}" class="alert alert-into mt-2 border border-info-subtle">
+        <h3 th:text="${el.getTitle()}" class="p-3 bg-success bg-opacity-10 border border-success rounded-end" />
         <p th:text="${el.getAnons()}"/>
-        <a th:href="'/news/reading/'+ ${el.id}" class="btn btn-warning">More information's</a>
+        <a th:href="'/news/reading/'+ ${el.getId()}" class="btn btn-warning">More information's</a>
     </div>
 </div>
 <footer th:insert="blocks/footer :: footer"></footer>

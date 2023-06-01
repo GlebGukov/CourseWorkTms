@@ -3,19 +3,27 @@ package com.example.coursework.service;
 import com.example.coursework.dto.PostNewsDto;
 import com.example.coursework.models.PostNewsEntity;
 
+import java.util.List;
+import java.util.UUID;
+
 public interface NewsService {
 
-    PostNewsDto saveToDB(PostNewsDto postNewsDto, String type);
+    PostNewsDto getNews(UUID id);
 
-    PostNewsDto makeChanges(PostNewsDto postNewsDto, long id);
+    void saveToDataBase(PostNewsDto postNewsDto, String type);
 
-    void deleteFromDB(long id);
+    void makeChanges(UUID id, PostNewsDto postNewsDto);
 
-    Iterable<PostNewsDto> getNews(String typeOfNews);
+    void deleteFromDataBase(UUID id);
 
-    PostNewsDto toDetails(long id);
+    //
+    List<PostNewsDto> getListNews(String typeOfNews);
 
-    Iterable<PostNewsEntity> newsArchive();
+    void upView(UUID id);
 
-    void addNewsToArchiveOrActual(boolean arg, long id);
+    List<PostNewsEntity> newsListArchive();
+
+    void addNewsToArchiveOrActual(boolean arg, UUID id);
+
+    PostNewsDto getRandomNews();
 }

@@ -3,7 +3,10 @@ package com.example.coursework.mapper;
 import com.example.coursework.dto.PostNewsDto;
 import com.example.coursework.models.PostNewsEntity;
 import org.mapstruct.Mapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 @Mapper(
         componentModel = "spring"
@@ -15,7 +18,7 @@ public interface NewsMapper {
 
     PostNewsEntity toEntity(PostNewsDto postNews);
 
-    Iterable<PostNewsEntity> iterableNewsToEntity(Iterable<PostNewsDto> iterableNewsDto);
+    List<PostNewsEntity> iterableNewsToEntity(List<PostNewsDto> iterableNewsDto);
 
-    Iterable<PostNewsDto> iterableNewsToDto(Iterable<PostNewsEntity> iterableNewsEntity);
+    List<PostNewsDto> iterableNewsToDto(List<PostNewsEntity> iterableNewsEntity);
 }

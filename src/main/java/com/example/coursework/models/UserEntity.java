@@ -24,16 +24,10 @@ public class UserEntity {
 
     @Id
     private UUID id;
-    @NotEmpty(message = "Name should not be empty")
     private String login;
-    @Size(min = 4, max = 20, message = "Min 4 characters, max - 20")
     private String password;
-    @NotEmpty(message = "please, write you first name")
     private String first_name;
-    @NotEmpty(message = "please, write you last name")
     private String last_name;
-    @Email
-    @NotEmpty(message = "Email should not be empty")
     private String email;
     private Boolean status;
     @Enumerated(EnumType.STRING)

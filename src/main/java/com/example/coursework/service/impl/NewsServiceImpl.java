@@ -25,6 +25,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public PostNewsDto getNews(UUID id) {
         return newsMapper.toDto(postNewsRepository.findById(id).orElseThrow());
+
     }
 
     @Override

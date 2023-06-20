@@ -20,8 +20,8 @@ public class UserDetailsImpl implements UserDetails {
     private String login;
     private String password;
     private Role role;
+    private Boolean status;
     private BCryptPasswordEncoder encoder;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -45,7 +45,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return status;
     }
 
     @Override

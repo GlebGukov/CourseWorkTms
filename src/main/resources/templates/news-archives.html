@@ -9,7 +9,7 @@
 <header th:insert="blocks/header :: header"></header>
 
 <div class="container mt-5 mb-5">
-    <h3 th:text="'News archive for ' + ${month}"/>
+    <h3 th:text="'News archive'"/>
     <div th:each="el: ${newsArchive}" class="alert alert-into mt-2 border border-info-subtle">
         <h3 th:text="${el.getTitle()}" class="p-3 bg-success bg-opacity-10 border border-success rounded-end"/>
         <p th:text="${el.getAnons()}"/>

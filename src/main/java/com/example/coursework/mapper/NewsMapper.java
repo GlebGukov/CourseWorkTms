@@ -15,5 +15,6 @@ public interface NewsMapper {
     PostNewsDto toDto(PostNewsEntity postNews);
 
     PostNewsEntity toEntity(PostNewsDto postNews);
+
     List<PostNewsDto> toListNewsDto(List<PostNewsEntity> listNewsEntity);
 }

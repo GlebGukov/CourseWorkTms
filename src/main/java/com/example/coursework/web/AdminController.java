@@ -2,7 +2,6 @@ package com.example.coursework.web;
 
 import com.example.coursework.dto.PostNewsDto;
 import com.example.coursework.dto.UserDto;
-import com.example.coursework.repositories.UserRepository;
 import com.example.coursework.service.NewsService;
 import com.example.coursework.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,6 @@ import java.util.UUID;
 public class AdminController {
     private final NewsService newsService;
     private final UserServiceImpl userService;
-    private final UserRepository userRepository;
 
     @GetMapping()
     @PreAuthorize("hasAuthority('write')")
@@ -62,6 +60,13 @@ public class AdminController {
     @PreAuthorize("hasAuthority('create')")
     public String changeRoleUsers(@PathVariable UUID id, String role) {
         userService.changeRole(id, role);
+        return "redirect:/";
+    }
+
+    @PostMapping("/{id}/ban")
+    @PreAuthorize("hasAuthority('create')")
+    public String banUser(@PathVariable UUID id) {
+        userService.banUser(id);
         return "redirect:/";
     }
 }

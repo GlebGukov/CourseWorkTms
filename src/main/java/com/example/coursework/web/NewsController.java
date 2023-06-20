@@ -1,6 +1,5 @@
 package com.example.coursework.web;
 
-import com.example.coursework.dto.CommentsDto;
 import com.example.coursework.dto.PostNewsDto;
 import com.example.coursework.service.impl.CommentService;
 import com.example.coursework.service.impl.NewsServiceImpl;
@@ -9,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -42,9 +42,11 @@ public class NewsController {
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('read')")
-    public String newsAdd(@Valid PostNewsDto postNewsDto, BindingResult bindingResult, @RequestParam String typeNews) {
+    public String newsAdd(@Valid PostNewsDto postNewsDto, BindingResult bindingResult, @RequestParam String typeNews, Model model) {
         if (bindingResult.hasErrors()) {
-            return "redirect:/news/add";
+            List<ObjectError> allErrors = bindingResult.getAllErrors();
+            model.addAttribute("ex", allErrors);
+            return "/news-error";
         }
         newsService.saveToDataBase(postNewsDto, typeNews);
         return "redirect:/";

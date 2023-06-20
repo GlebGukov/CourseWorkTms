@@ -1,7 +1,5 @@
 package com.example.coursework.repositories;
 
-import com.example.coursework.dto.CommentsDto;
-import com.example.coursework.models.CommentsEntity;
 import com.example.coursework.models.PostNewsEntity;
 import com.example.coursework.models.TypeOfNews;
 import org.springframework.data.jpa.repository.Modifying;

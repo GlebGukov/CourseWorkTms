@@ -19,19 +19,21 @@
             <input type="text" name="comments" placeholder="comments" class="form-control"><br>
         </form>
         <form th:action="'/news/edit/'+${news.getId()}" method="get" sec:authorize="hasAuthority('write')">
-        <button class="btn btn-outline-warning">Edit this news</button>
+            <button class="btn btn-outline-warning">Edit this news</button>
         </form>
         <br>
         <form th:action="'/news/delete/'+${news.getId()}" method="post" sec:authorize="hasAuthority('write')">
             <button type="submit" class="btn btn-outline-danger">Delete this news</button>
         </form>
         <br>
-        <form th:action="'/archive/'+${news.getId()}" method="post" sec:authorize="hasAuthority('write')" th:if="${news.archived==false}">
+        <form th:action="'/archive/'+${news.getId()}" method="post" sec:authorize="hasAuthority('write')"
+              th:if="${news.archived==false}">
             <button type="submit" class="btn btn-outline-info">
                 Send news to the archive
             </button>
         </form>
-        <form th:action="'/admin/'+${news.getId()}" method="post" sec:authorize="hasAuthority('write')" th:if="${news.approved == false}" >
+        <form th:action="'/admin/'+${news.getId()}" method="post" sec:authorize="hasAuthority('write')"
+              th:if="${news.approved == false}">
             <button type="submit" class="btn btn-outline-info">
                 Publish news
             </button>

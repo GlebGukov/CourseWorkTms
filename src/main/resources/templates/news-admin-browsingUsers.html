@@ -19,11 +19,6 @@
             <li class="list-group-item" th:text="${el.getLogin()}"/>
             <li class="list-group-item" th:text="${el.getRole()}"/>
             <br>
-            <form th:action="'/admin/'+${el.id}+'/ban'" method="post">
-                <button type="submit" class="btn btn-outline-info">
-                    BAN BLYAT!!!
-                </button>
-            </form><br>
 
             <form th:action="'/admin/'+${el.id}+'/role'" method="post">
                 <select class="form-select" name="role">
@@ -32,6 +27,10 @@
                     <option value="ROLE_USER">User</option>
                 </select>
                 <button type="submit">Submit</button>
+            </form>
+            <br>
+            <form th:action="'/admin/'+${el.id}+'/ban'" th:method="POST">
+                <button type="submit">block user?</button>
             </form>
         </ul>
     </div>

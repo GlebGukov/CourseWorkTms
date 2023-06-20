@@ -1,7 +1,6 @@
 package com.example.coursework.dto;
 
 import com.example.coursework.models.TypeOfNews;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,11 +18,11 @@ import java.util.UUID;
 public class PostNewsDto {
 
     private UUID id;
-    @Size(min = 10, max = 1000, message = "Min 10 characters, max - 1000")
+    @Size(min = 10, max = 250, message = "Title: Min 10 characters, max - 250")
     private String title;
-    @Size(min = 10, max = 250, message = "Min 10 characters, max - 250")
+    @Size(min = 10, max = 1000, message = "Anons: Min 10 characters, max - 1000")
     private String anons;
-    @Size(min = 10, max = 250, message = "Min 10 characters, max - 2500")
+    @Size(min = 10, max = 5000, message = "Text: Min 10 characters, max - 5000")
     private String fullText;
     private long views = 1;
     private TypeOfNews typeOfNews;

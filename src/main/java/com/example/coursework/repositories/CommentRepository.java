@@ -8,5 +8,5 @@ import java.util.UUID;
 
 public interface CommentRepository extends CrudRepository<CommentsEntity, Long> {
 
-    List<CommentsEntity> getCommentsEntitiesByPostNewsId (UUID newsId);
+    List<CommentsEntity> getCommentsEntitiesByPostNewsId(UUID newsId);
 }

@@ -13,13 +13,11 @@ import com.example.coursework.models.UserEntity;
 import com.example.coursework.repositories.CommentRepository;
 import com.example.coursework.repositories.PostNewsRepository;
 import com.example.coursework.repositories.UserRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor

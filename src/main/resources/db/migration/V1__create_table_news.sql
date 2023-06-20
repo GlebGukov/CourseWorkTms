@@ -1,5 +1,6 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-    create table news
+CREATE
+EXTENSION IF NOT EXISTS "uuid-ossp";
+create table news
 (
     id           UUID primary key,
     anons        varchar,

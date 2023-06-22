@@ -16,7 +16,8 @@
         <p th:text="${news.getFullText()}"/>
         <p th:text="'Просмотры:  '+ ${news.getViews()}" class="fst-italic text-info font-weight-bold"/>
         <form th:action="'/news/comment/'+${news.getId()}" method="post" sec:authorize="hasAuthority('read')">
-            <input type="text" name="comments" placeholder="comments" class="form-control"><br>
+            <input type="text" name="comment" placeholder="comment" class="form-control"><br>
+            <button type="submit">Send comment</button>
         </form>
         <form th:action="'/news/edit/'+${news.getId()}" method="get" sec:authorize="hasAuthority('write')">
             <button class="btn btn-outline-warning">Edit this news</button>

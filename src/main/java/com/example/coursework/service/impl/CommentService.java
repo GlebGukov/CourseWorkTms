@@ -37,17 +37,13 @@ public class CommentService {
 
         UserEntity userEntity = userRepository.findByLogin(login);
         PostNewsEntity newsEntity = newsRepository.findById(idNews).orElseThrow();
-        UserDto userDto = userMapperImpl.toDto(userEntity);
-        PostNewsDto postNewsDto = newsMapperImpl.toDto(newsEntity);
-
-        CommentsDto commentsDto = CommentsDto.builder()
+        CommentsEntity commentsEntity = CommentsEntity.builder()
                 .comment(comment)
                 .date(LocalDateTime.now())
-                .postNews(postNewsDto)
-                .user(userDto)
+                .postNews(newsEntity)
+                .user(userEntity)
                 .build();
-        CommentsEntity commentsEntity = commentsMapperImpl.toEntity(commentsDto);
-        newsEntity.getComments().add(commentsEntity);
+
         commentRepository.save(commentsEntity);
     }
 }

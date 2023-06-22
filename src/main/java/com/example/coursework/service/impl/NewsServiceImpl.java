@@ -10,9 +10,14 @@ import com.example.coursework.service.NewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
+
+@Validated
 
 @RequiredArgsConstructor
 @Service
@@ -29,7 +34,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public void saveToDataBase(PostNewsDto postNewsDto, String type) {
+    public void saveToDataBase(@Valid PostNewsDto postNewsDto,@NotNull String type) {
         TypeOfNews typeOfNews = converterStringToTypeNews.convertStringToTypeNews(type);
         postNewsDto.setTypeOfNews(typeOfNews);
         postNewsDto.setId(UUID.randomUUID());

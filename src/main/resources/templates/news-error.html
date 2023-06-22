@@ -8,8 +8,8 @@
 <body>
 <header th:insert="blocks/header :: header"></header>
 
-<div class="container mt-5 mb-5" th:each="el:${ex}">
-   <p th:text="${el.getDefaultMessage()}"/>
+<div class="container mt-5 mb-5" th:each="el : ${exs}" >
+   <p th:text="${el.getMessage()}"/>
 </div>
 <footer th:insert="blocks/footer :: footer"></footer>
 </body>

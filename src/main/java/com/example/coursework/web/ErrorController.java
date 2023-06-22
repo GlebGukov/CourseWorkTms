@@ -1,8 +1,10 @@
 package com.example.coursework.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -13,22 +15,22 @@ import java.util.NoSuchElementException;
 public class ErrorController {
 
     @ExceptionHandler(NoSuchElementException.class)
-    private String processError(NoSuchElementException ex, Model model) {
-        model.addAttribute("ex", ex);
-        return "news-error";
+    private ModelAndView processError(NoSuchElementException ex) {
+        return modelAndView("news-error.html").addObject("exs", ex);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    private String processError(IllegalArgumentException ex, Model model) {
-        model.addAttribute("ex", ex);
-        return "news-error";
+    private ModelAndView processError(IllegalArgumentException ex) {
+        return modelAndView("news-error.html").addObject("exs", ex);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    private String userNotValid(ConstraintViolationException ex, Model model) {
+    private ModelAndView userNotValid(ConstraintViolationException ex) {
         List<String> error = ex.getConstraintViolations().stream()
                 .map(ConstraintViolation::getMessage).toList();
-        model.addAttribute("error", error);
-        return "user-error";
+        return modelAndView("user-error").addObject("error", error);
+    }
+    private static ModelAndView modelAndView(String view){
+        return new ModelAndView(view);
     }
 }

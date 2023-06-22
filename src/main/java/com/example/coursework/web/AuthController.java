@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @RequiredArgsConstructor
 
@@ -18,18 +19,22 @@ public class AuthController {
     private final UserService userService;
 
     @GetMapping("/login")
-    public String login() {
-        return "news-login";
+    public ModelAndView login() {
+        return modelAndView("news-login");
     }
 
     @GetMapping("/registration")
-    public String registration() {
-        return "registration";
+    public ModelAndView registration() {
+        return modelAndView("registration");
+
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute UserDto user) {
+    public ModelAndView registration(@ModelAttribute UserDto user) {
         userService.saveToDataBase(user);
-        return "news-login";
+        return modelAndView("news-login");
+    }
+    private static ModelAndView modelAndView(String view){
+        return new ModelAndView(view);
     }
 }

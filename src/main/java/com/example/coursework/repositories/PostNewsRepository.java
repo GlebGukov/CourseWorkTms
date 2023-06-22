@@ -16,6 +16,9 @@ public interface PostNewsRepository extends CrudRepository<PostNewsEntity, UUID>
     List<PostNewsEntity> findByTypeOfNewsAndArchivedIsFalseAndApprovedIsTrue(TypeOfNews typeOfNews);
 
     List<PostNewsEntity> findByApprovedFalse();
+    void deleteByAnons(String anons);
+
+    PostNewsEntity findByAnons(String anons);
 
     @Modifying
     @Query("UPDATE news SET views = views+1 WHERE id = :id ")

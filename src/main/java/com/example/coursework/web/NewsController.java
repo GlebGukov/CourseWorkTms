@@ -6,12 +6,14 @@ import com.example.coursework.service.impl.NewsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,70 +28,65 @@ public class NewsController {
 
     @GetMapping("/{title}")
     @PreAuthorize("hasAuthority('read')")
-    public String news(@PathVariable(name = "title") String type, Model model) {
-        model.addAttribute("title", type);
+    public ModelAndView news(@PathVariable(name = "title") String type) {
         List<PostNewsDto> news = newsService.getListNews(type);
-        model.addAttribute("typeNews", news);
-        return "news-header";
+        return modelAndView("news-header")
+                .addObject("title", type)
+                        .addObject("typeNews", news);
     }
 
     @GetMapping("/add")
     @PreAuthorize("hasAuthority('read')")
-    public String newsAdd(Model model) {
-        model.addAttribute("news");
-        return "news-add";
+    public ModelAndView newsAdd() {
+        return modelAndView("news-add");
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('read')")
-    public String newsAdd(@Valid PostNewsDto postNewsDto, BindingResult bindingResult, @RequestParam String typeNews, Model model) {
-        if (bindingResult.hasErrors()) {
-            List<ObjectError> allErrors = bindingResult.getAllErrors();
-            model.addAttribute("ex", allErrors);
-            return "/news-error";
-        }
+    public ModelAndView newsAdd(PostNewsDto postNewsDto,@RequestParam String typeNews) {
         newsService.saveToDataBase(postNewsDto, typeNews);
-        return "redirect:/";
+        return modelAndView("redirect:/");
     }
 
     @GetMapping("/reading/{id}")
     @PreAuthorize("hasAuthority('read')")
-    public String newsDetails(@PathVariable(name = "id") UUID id, Model model) {
+    public ModelAndView newsDetails(@PathVariable(name = "id") UUID id) {
         newsService.upView(id);
         PostNewsDto news = newsService.getNews(id);
-        model.addAttribute("news", news);
-        return "news-details";
+        return modelAndView("news-details")
+                .addObject("news", news);
     }
 
     @GetMapping("/edit/{id}")
     @PreAuthorize("hasAuthority('write')")
-    public String editNews(@PathVariable(name = "id") UUID id, Model model) {
+    public ModelAndView editNews(@PathVariable(name = "id") UUID id) {
         PostNewsDto postNewsDto = newsService.getNews(id);
-        model.addAttribute("news", postNewsDto);
-        return "news-edit";
+        return modelAndView("news-edit")
+                .addObject("news", postNewsDto);
     }
 
     @PostMapping("/edit/{id}")
     @PreAuthorize("hasAuthority('write')")
-    public String editNews(@PathVariable(name = "id") UUID id, PostNewsDto postNewsDto) {
+    public ModelAndView editNews(@PathVariable(name = "id") UUID id, PostNewsDto postNewsDto) {
         newsService.makeChanges(id, postNewsDto);
-        return "redirect:/";
+        return modelAndView("redirect:/");
     }
 
     @PostMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('write')")
-    public String deleteNews(@PathVariable(name = "id") UUID id) {
+    public ModelAndView deleteNews(@PathVariable(name = "id") UUID id) {
         newsService.deleteFromDataBase(id);
-        return "redirect:/";
+        return modelAndView("redirect:/");
     }
 
     @PostMapping("/comment/{id}")
-    @PreAuthorize("hasAuthority('read')")
-    public String addComment(@PathVariable(name = "id") UUID id, @Valid String comments) {
-
-        commentService.setComment(id, comments);
-        return "redirect:/";
-
+    @PreAuthorize("hasAnyAuthority('read')")
+    public ModelAndView addComment(@PathVariable(name = "id") UUID id,@RequestParam(value = "comment") String comment) {
+        commentService.setComment(id, comment);
+        return modelAndView("redirect:/");
+    }
+    private static ModelAndView modelAndView(String view) {
+        return new ModelAndView(view);
     }
 }
 

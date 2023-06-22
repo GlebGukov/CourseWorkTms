@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,24 +24,26 @@ public class ArchiveController {
     private final NewsService newsService;
 
     @GetMapping()
-    public String getArchiveNews(Model model) {
+    public ModelAndView getArchiveNews() {
         List<PostNewsEntity> newsArchive = newsService.newsListArchive();
-        model.addAttribute("newsArchive", newsArchive);
-        return "news-archives";
+        return modelAndView("news-archives").addObject("newsArchive", newsArchive);
     }
 
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('write')")
-    public String addNewsToArchive(@PathVariable(name = "id") UUID id) {
+    public ModelAndView addNewsToArchive(@PathVariable(name = "id") UUID id) {
         newsService.addNewsToArchiveOrActual(true, id);
-        return "redirect:/";
+        return modelAndView("redirect:/");
     }
 
     @Transactional
     @PostMapping("/{id}/toActual")
     @PreAuthorize("hasAuthority('write')")
-    public String addNewsToActual(@PathVariable(name = "id") UUID id) {
+    public ModelAndView addNewsToActual(@PathVariable(name = "id") UUID id) {
         newsService.addNewsToArchiveOrActual(false, id);
-        return "redirect:/";
+        return modelAndView("redirect:/");
+    }
+    private static ModelAndView modelAndView(String view){
+        return new ModelAndView(view);
     }
 }

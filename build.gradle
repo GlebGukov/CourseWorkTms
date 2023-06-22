@@ -38,9 +38,13 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     testImplementation group: 'junit', name: 'junit'
-    testImplementation 'org.mockito:mockito-core:5.2.0'
-    testImplementation 'org.mockito:mockito-junit-jupiter:5.2.0'
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.mockito:mockito-junit-jupiter'
+
+    testImplementation group: 'com.github.tomakehurst', name: 'wiremock-jre8', version: '2.35.0'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 
     runtimeOnly 'org.postgresql:postgresql'
 
